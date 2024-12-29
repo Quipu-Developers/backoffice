@@ -1,8 +1,21 @@
 {
-  "short_name": "Quipu",
-  "name": "Quipu BackOffice Web",
-  "start_url": ".",
+  "name": "Quipu Admin",
+  "short_name": "Admin",
+  "theme_color": "#fee32f",
+  "background_color": "#fee32f",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
 }
