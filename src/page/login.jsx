@@ -3,14 +3,17 @@ import { useState, useRef, useEffect } from "react";
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { MdDownloadForOffline } from "react-icons/md";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
 
 export default function Login() {
-  let [password, setPassword] = useState("");
-  const pwFocus = useRef(true);
+  const [password, setPassword] = useState("");
+  const [installPrompt, setInstallPrompt] = useState(null);
+  const [isInstalled, setIsInstalled] = useState(false); // 설치 여부 상태 추가
 
+  const pwFocus = useRef(true);
   const navigate = useNavigate();
 
   const LoginFunc = (e) => {
@@ -35,17 +38,6 @@ export default function Login() {
         })
         .then((response) => {
           if (response.status === 200) {
-            // 쿠키를 가져와서 axios에 설정
-            const setCookieHeader = response.headers["set-cookie"];
-            if (setCookieHeader) {
-              const sidCookie = setCookieHeader.find((cookie) =>
-                cookie.startsWith("connect.sid=")
-              );
-              if (sidCookie) {
-                // axios 기본 설정에 쿠키를 포함시킴
-                axios.defaults.headers.common["Cookie"] = sidCookie;
-              }
-            }
             navigate("/recruitDB");
           }
         })
@@ -61,21 +53,53 @@ export default function Login() {
     }
   };
 
-  // 로그인 시 엔터키로 넘어가는 경우를 위한 함수
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       LoginFunc(e);
     }
   };
-  // pw focus 함수
+
   useEffect(() => {
+    if (pwFocus.current) {
+      pwFocus.current.focus();
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setInstallPrompt(e);
+    };
+
+    const handleAppInstalled = () => {
+      setIsInstalled(true); // 설치 후 버튼 숨김 처리
+    };
+
+    // PWA 설치 이벤트 등록
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    // 설치 여부 초기 확인 (이미 설치된 경우 처리)
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setIsInstalled(true);
+    }
+
     return () => {
-      if (pwFocus.current) {
-        pwFocus.current.focus();
-        pwFocus.current = false;
-      }
+      window.removeEventListener(
+        "beforeinstallprompt",
+        handleBeforeInstallPrompt
+      );
+      window.removeEventListener("appinstalled", handleAppInstalled);
     };
   }, []);
+
+  const installApp = () => {
+    if (installPrompt) {
+      installPrompt.prompt();
+    } else {
+      alert("바로가기를 추가할 수 없습니다.");
+    }
+  };
 
   return (
     <div className="lg_container">
@@ -104,6 +128,10 @@ export default function Login() {
         Copyright 2024.&nbsp;<span className="Quipu">QUIPU.</span>&nbsp;
         <br></br>All rights reserved.
       </footer>
+
+      {!isInstalled && ( // 설치되지 않은 경우에만 버튼 표시
+        <MdDownloadForOffline className="install-button" onClick={installApp} />
+      )}
     </div>
   );
 }
