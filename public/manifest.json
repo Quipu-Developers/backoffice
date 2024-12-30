@@ -4,8 +4,8 @@
   "theme_color": "#fee32f",
   "background_color": "#fee32f",
   "display": "standalone",
-  "scope": "/",
-  "start_url": "/backoffice-frontend",
+  "scope": "/backoffice-frontend/",
+  "start_url": "/backoffice-frontend/",
   "icons": [
     {
       "src": "icon-192.png",
