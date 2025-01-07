@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/24_2_backoffice/static/css/main.144ff54c.css",
+    "main.js": "/24_2_backoffice/static/js/main.c844b6f8.js",
+    "static/js/453.97c18b9e.chunk.js": "/24_2_backoffice/static/js/453.97c18b9e.chunk.js",
+    "static/media/LINESeedKR-Rg.woff": "/24_2_backoffice/static/media/LINESeedKR-Rg.aefe197e00153cd0acf0.woff",
+    "static/media/LINESeedKR-Bd.woff": "/24_2_backoffice/static/media/LINESeedKR-Bd.924771ba9d7ac3f1a815.woff",
+    "static/media/LINESeedKR-Th.woff": "/24_2_backoffice/static/media/LINESeedKR-Th.419d2e852209e9681685.woff",
+    "static/media/LINESeedKR-Rg.woff2": "/24_2_backoffice/static/media/LINESeedKR-Rg.3ba2e74d1b581a1d79c3.woff2",
+    "static/media/LINESeedKR-Bd.woff2": "/24_2_backoffice/static/media/LINESeedKR-Bd.4729562ef4f148c475dc.woff2",
+    "static/media/LINESeedKR-Th.woff2": "/24_2_backoffice/static/media/LINESeedKR-Th.0e9b92963de1cf3f0a36.woff2",
+    "index.html": "/24_2_backoffice/index.html",
+    "main.144ff54c.css.map": "/24_2_backoffice/static/css/main.144ff54c.css.map",
+    "main.c844b6f8.js.map": "/24_2_backoffice/static/js/main.c844b6f8.js.map",
+    "453.97c18b9e.chunk.js.map": "/24_2_backoffice/static/js/453.97c18b9e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.144ff54c.css",
+    "static/js/main.c844b6f8.js"
+  ]
+}
