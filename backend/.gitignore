@@ -1,0 +1,4 @@
+config.json
+bcrypt.js
+.env
+node_modules

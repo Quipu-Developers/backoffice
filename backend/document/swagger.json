@@ -1,0 +1,226 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "forum API",
+    "version": "0.0.1",
+    "description": "quipu forum API용 Swagger"
+  },
+  "paths": {
+    "/bo/auth/login": {
+      "post": {
+        "summary": "로그인",
+        "description": "BO에 로그인",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string",
+                    "description": "사용자가 값을 입력하지 않아도, 항상 admin이라는 값으로 오도록 설정해주세요",
+                    "example": "admin"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "비밀번호",
+                    "example": "quipuadmin0316@!"
+                  }
+                },
+                "required": [
+                  "username",
+                  "password"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "로그인 완료",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "로그인 성공"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "비밀번호 틀림",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "비밀번호가 틀림"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 에러"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bo/data/joinquipu_general": {
+      "get": {
+        "summary": "동아리 신청 인원 조회",
+        "description": "general_member 테이블 조회",
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "조회 성공"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 에러"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bo/data/joinquipu_dev": {
+      "get": {
+        "summary": "동아리 신청 인원 조회",
+        "description": "dev_member 테이블 조회",
+        "responses": {
+          "200": {
+            "description": "조회 성공",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "조회 성공"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 에러"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bo/data/joinquipu_dev_file/{filename}": {
+      "get": {
+        "summary": "개발팀 지원자 포토폴리오 열람",
+        "description": "dev_member 포토폴리오 요청",
+        "parameters": [
+          {
+            "name": "filename",
+            "in": "path",
+            "required": true,
+            "description": "파일 이름",
+            "schema": {
+              "type": "string",
+              "example": "퀴푸-[design]2020440102디자인.pdf"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "파일 전송 성공",
+            "content": {
+              "application/pdf": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary",
+                  "description": "전송된 PDF 파일"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "파일이 성공적으로 전송되었습니다."
+                    },
+                    "file": {
+                      "type": "string",
+                      "format": "binary",
+                      "description": "전송된 PDF 파일"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "파일이 없음",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "파일이 없음"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 에러"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bo/auth/logout": {
+      "get": {
+        "summary": "로그 아웃",
+        "description": "로그 아웃",
+        "responses": {
+          "200": {
+            "description": "로그아웃",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "로그아웃 완료"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "로그아웃 중 오류 발생"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
