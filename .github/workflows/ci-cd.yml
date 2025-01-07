@@ -19,6 +19,7 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
+        working-directory: frontend
         run: npm install
 
       - name: Create .env.production file
@@ -27,11 +28,13 @@ jobs:
           echo "REACT_APP_FRONTEND_URL=${{ secrets.REACT_APP_FRONTEND_URL }}" >> ./.env.production
 
       - name: Build project
+        working-directory: frontend
         run: npm run build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.1.1
+        if: success()
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          token: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-          branch: gh-pages
-          folder: build
+          github_token: ${{ secrets.BACKOFFICE_FRONTEND_DEPLOY_KEY }}
+          publish_dir: ./frontend/build
+          cname: "quipu.uos.ac.kr"
