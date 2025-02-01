@@ -1,7 +1,8 @@
-<img width="567" alt="image" src="https://github.com/user-attachments/assets/c294ccd7-98be-4e77-a1cf-875bb5c4265e" />
-<img width="567" alt="image" src="https://github.com/user-attachments/assets/ae8da484-c9ca-479d-91db-c3fb1cec54b9" />
-
 # 🔍 QUIPU 지원자 관리 백오피스
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/c294ccd7-98be-4e77-a1cf-875bb5c4265e" width="45%" />
+  <img src="https://github.com/user-attachments/assets/ae8da484-c9ca-479d-91db-c3fb1cec54b9" width="45%" />
+</div>
 
 서울시립대학교 **컴퓨터 학술 중앙동아리 QUIPU**의 **지원자 정보 실시간 동기화 백오피스**입니다.  
 QUIPU 메인 웹의 지원 폼을 통해 제출된 정보를 실시간으로 불러와 효율적인 관리가 가능합니다.
