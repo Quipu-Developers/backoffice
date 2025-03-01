@@ -43,7 +43,7 @@ app.use(passport.initialize()); // req.user, req.login, req.isAuthenticate, req.
 app.use(passport.session()); //connect.sid라는 이름으로 세션 쿠키가 브라우져로 전송
 app.use(express.json());
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
     app.use(cors({
         origin: process.env.CLEINT_ORIGIN_DEV, // 클라이언트의 Origin
         methods: ['GET', 'POST', 'OPTIONS', 'DELETE', ],
