@@ -1,41 +1,10 @@
 import * as XLSX from "xlsx";
 import React, { useState, useEffect, useCallback } from "react";
 import "../style/recruitDB.css";
-import {
-  fetchGeneralData,
-  fetchDevData,
-  fetchMemberData,
-  fetchAndSavePortfolio,
-} from "../api/recruitDB_api";
+import { fetchMemberData, fetchAndSavePortfolio } from "../api/recruitDB_api";
 import { logout } from "../api/logout_api";
 import { useNavigate } from "react-router-dom";
-
-// 엑셀 파일로 내보내기
-function ExcelExporter({ buttonText, generalData, devData }) {
-  const [fileName, setFileName] = useState("퀴푸 지원 명단.xlsx");
-
-  const exportToExcel = () => {
-    const newFileName = window.prompt("저장할 파일명을 입력하세요.", fileName);
-    if (newFileName) {
-      setFileName(newFileName);
-
-      const generalWorksheet = XLSX.utils.json_to_sheet(generalData);
-      const devWorksheet = XLSX.utils.json_to_sheet(devData);
-
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, generalWorksheet, "GeneralData"); // GeneralData 시트 추가
-      XLSX.utils.book_append_sheet(workbook, devWorksheet, "DevData"); // DevData 시트 추가
-
-      XLSX.writeFile(workbook, newFileName);
-    }
-  };
-
-  return (
-    <div>
-      <button onClick={exportToExcel}>{buttonText}</button>
-    </div>
-  );
-}
+import toast from "../hook/toastUtil";
 
 function RecruitDB() {
   const [buttonText, setButtonText] = useState("엑셀 파일로 내보내기");
@@ -53,6 +22,7 @@ function RecruitDB() {
       try {
         const data = await fetchMemberData();
         setGeneralData(data);
+        setDevData(data);
         setData(data);
         setNorordev("개발");
         setHighlightedRowIndex(0); // 첫 번째 행을 하이라이트
@@ -65,38 +35,8 @@ function RecruitDB() {
     fetchData();
   }, [navigate]);
 
-  // 일반/개발부원 선택 이벤트
-  const loadData = async (selectedValue) => {
-    try {
-      if (selectedValue === "일반") {
-        // 일반부원 데이터 불러오기
-        const data = await fetchGeneralData();
-        setGeneralData(data);
-        setData(data);
-        setNorordev("일반");
-        setHighlightedRowIndex(0); // 첫 번째 행을 하이라이트
-        setSelectedRowIndex(0); // 첫 번째 행을 선택된 상태로 설정
-      } else if (selectedValue === "개발") {
-        // 개발부원 데이터 불러오기
-        const data = await fetchDevData();
-        setDevData(data);
-        setData(data);
-        setNorordev("개발");
-        setHighlightedRowIndex(0); // 첫 번째 행을 하이라이트
-        setSelectedRowIndex(0); // 첫 번째 행을 선택된 상태로 설정
-      }
-    } catch (error) {
-      console.error("Error");
-      navigate("/");
-    }
-  };
-
-  const handleRadioChange = (e) => {
-    setNorordev(e.target.value);
-  };
-
   const handleLoadDataClick = () => {
-    loadData(norordev); // 선택된 옵션에 따라 데이터 로드
+    window.location.reload();
   };
 
   const [showModal, setShowModal] = useState(false);
@@ -109,18 +49,7 @@ function RecruitDB() {
     navigator.clipboard
       .writeText(phoneNumber)
       .then(() => {
-        alert("전화번호가 클립보드에 복사되었습니다.");
-      })
-      .catch((err) => {
-        console.error("클립보드 복사를 실패하였습니다.: ", err);
-      });
-  };
-
-  const handleCopy = (string) => {
-    navigator.clipboard
-      .writeText(string)
-      .then(() => {
-        alert("클립보드에 복사되었습니다.");
+        toast.success("전화번호가 클립보드에 복사되었습니다.");
       })
       .catch((err) => {
         console.error("클립보드 복사를 실패하였습니다.: ", err);
@@ -227,7 +156,7 @@ function RecruitDB() {
     if (response.status === 200) {
       navigate("/");
     } else {
-      alert("로그아웃 실패!");
+      toast.error("로그아웃 실패!");
     }
   };
 
@@ -236,8 +165,7 @@ function RecruitDB() {
       <div className="db-logo">
         <span> Quipu </span>
         <span className="db-logout" onClick={onClickLogout}>
-          {" "}
-          logout{" "}
+          logout
         </span>
       </div>
       <div className="bottombox">
@@ -336,11 +264,11 @@ function RecruitDB() {
       </div>
 
       {showModal && (
-        <div className="modal">
+        <div className="modal" onClick={closeModal}>
           <h6 className="prev-button" onClick={prevStudent}>
             &#60;
           </h6>
-          <div className="modal-content">
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <h6 className="closebutton" onClick={closeModal}>
               x
             </h6>
@@ -362,7 +290,7 @@ function RecruitDB() {
             </p>
             {norordev === "개발" &&
               selectedIndex !== null &&
-              selectedStudent.semina(
+              selectedStudent.semina && (
                 <>
                   <p className="category">세미나 활동</p>
                   <p className="content">{selectedStudent.motivation_semina}</p>
@@ -370,7 +298,7 @@ function RecruitDB() {
               )}
             {norordev === "개발" &&
               selectedIndex !== null &&
-              selectedStudent.dev(
+              selectedStudent.dev && (
                 <>
                   <p className="category">개발 분야</p>
                   <p className="content">{selectedStudent.field_dev}</p>
@@ -393,7 +321,7 @@ function RecruitDB() {
               )}
             {norordev === "개발" &&
               selectedIndex !== null &&
-              selectedStudent.study(
+              selectedStudent.study && (
                 <>
                   <p className="category">스터디 활동</p>
                   <p className="content">{selectedStudent.motivation_study}</p>
@@ -401,7 +329,7 @@ function RecruitDB() {
               )}
             {norordev === "개발" &&
               selectedIndex !== null &&
-              selectedStudent.external(
+              selectedStudent.external && (
                 <>
                   <p className="category">대외 활동</p>
                   <p className="content">
@@ -432,3 +360,30 @@ function RecruitDB() {
 }
 
 export default RecruitDB;
+
+// 엑셀 파일로 내보내기
+function ExcelExporter({ buttonText, generalData, devData }) {
+  const [fileName, setFileName] = useState("퀴푸 지원 명단.xlsx");
+
+  const exportToExcel = () => {
+    const newFileName = window.prompt("저장할 파일명을 입력하세요.", fileName);
+    if (newFileName) {
+      setFileName(newFileName);
+
+      const generalWorksheet = XLSX.utils.json_to_sheet(generalData);
+      const devWorksheet = XLSX.utils.json_to_sheet(devData);
+
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, generalWorksheet, "GeneralData"); // GeneralData 시트 추가
+      XLSX.utils.book_append_sheet(workbook, devWorksheet, "DevData"); // DevData 시트 추가
+
+      XLSX.writeFile(workbook, newFileName);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={exportToExcel}>{buttonText}</button>
+    </div>
+  );
+}

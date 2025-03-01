@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { MdDownloadForOffline } from "react-icons/md";
+import toast from "../hook/toastUtil";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
 const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
@@ -20,7 +21,7 @@ export default function Login() {
     e.preventDefault();
 
     if (!password) {
-      return alert("Enter PW!");
+      return toast.error("비밀번호를 입력하세요");
     } else {
       const body = {
         username: "admin",
@@ -43,11 +44,11 @@ export default function Login() {
         })
         .catch((error) => {
           if (error.response && error.response.status === 401) {
-            alert("Wrong PW!");
+            toast.error("비밀번호가 틀렸어요");
           } else if (error.response && error.response.status === 403) {
             navigate("/recruitDB");
           } else {
-            alert("서버 오류!");
+            toast.error("문제가 발생했어요. 다시 시도해 주세요.");
           }
         });
     }
@@ -97,7 +98,7 @@ export default function Login() {
     if (installPrompt) {
       installPrompt.prompt();
     } else {
-      alert("바로가기를 추가할 수 없습니다.");
+      toast.error("설치 실패했어요");
     }
   };
 
