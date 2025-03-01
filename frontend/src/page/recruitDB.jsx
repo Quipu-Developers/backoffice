@@ -4,6 +4,7 @@ import "../style/recruitDB.css";
 import {
   fetchGeneralData,
   fetchDevData,
+  fetchMemberData,
   fetchAndSavePortfolio,
 } from "../api/recruitDB_api";
 import { logout } from "../api/logout_api";
@@ -38,7 +39,7 @@ function ExcelExporter({ buttonText, generalData, devData }) {
 
 function RecruitDB() {
   const [buttonText, setButtonText] = useState("엑셀 파일로 내보내기");
-  const [norordev, setNorordev] = useState("일반");
+  const [norordev, setNorordev] = useState("개발");
   const [generalData, setGeneralData] = useState([]);
   const [devData, setDevData] = useState([]);
   const [data, setData] = useState([]);
@@ -50,10 +51,10 @@ function RecruitDB() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchGeneralData();
+        const data = await fetchMemberData();
         setGeneralData(data);
         setData(data);
-        setNorordev("일반");
+        setNorordev("개발");
         setHighlightedRowIndex(0); // 첫 번째 행을 하이라이트
         setSelectedRowIndex(0); // 첫 번째 행을 선택된 상태로 설정
       } catch (error) {
@@ -250,7 +251,7 @@ function RecruitDB() {
             <button onClick={handleLoadDataClick}>불러오기</button>
           </div>
           {/* 일반/개발부원 라디오 버튼 */}
-          <div className="radio-buttons">
+          {/* <div className="radio-buttons">
             <label>
               <input
                 type="radio"
@@ -269,7 +270,7 @@ function RecruitDB() {
               />
               개발
             </label>
-          </div>
+          </div> */}
         </div>
 
         <div className="dbbox">
@@ -344,6 +345,8 @@ function RecruitDB() {
               x
             </h6>
             <h2>{selectedStudent.name}</h2>
+            <p className="category">학년</p>
+            <p className="content">{selectedStudent.grade}</p>
             <p className="category">학번</p>
             <p className="content">{selectedStudent.student_id}</p>
             <p className="category">학과</p>
@@ -357,49 +360,55 @@ function RecruitDB() {
             >
               {selectedStudent.phone_number}
             </p>
-            <p className="category">지원동기</p>
-            <p className="content">{selectedStudent.motivation}</p>
-            {norordev === "개발" && selectedIndex !== null && (
-              <>
-                <p className="category">지원분야</p>
-                <p className="content">{selectedStudent.department}</p>
-                <p className="category">포트폴리오 PDF</p>
-                <p
-                  className="click-value"
-                  onClick={() =>
-                    fetchAndSavePortfolio(selectedStudent.portfolio_pdf)
-                  }
-                >
-                  {selectedStudent.portfolio_pdf}
-                </p>
-                <p className="category">개발 경험 소개</p>
-                <p className="content">{selectedStudent.project_description}</p>
-                <p className="category">깃허브 프로필 URL</p>
-                <p className="content">
-                  <a href={selectedStudent.github_profile}>
-                    {selectedStudent.github_profile}
-                  </a>
-                </p>
-                <p className="category">깃허브 이메일</p>
-                <p
-                  className="click-value"
-                  onClick={() => handleCopy(selectedStudent.github_email)}
-                >
-                  {selectedStudent.github_email}
-                </p>
-                <p className="category">슬랙 이메일</p>
-                <p
-                  className="click-value"
-                  onClick={() => handleCopy(selectedStudent.slack_email)}
-                >
-                  {selectedStudent.slack_email}
-                </p>
-                <p className="category">일반부원 희망 여부</p>
-                <p className="content">
-                  {selectedStudent.willing_general_member ? "예" : "아니오"}
-                </p>
-              </>
-            )}
+            {norordev === "개발" &&
+              selectedIndex !== null &&
+              selectedStudent.semina(
+                <>
+                  <p className="category">세미나 활동</p>
+                  <p className="content">{selectedStudent.motivation_semina}</p>
+                </>
+              )}
+            {norordev === "개발" &&
+              selectedIndex !== null &&
+              selectedStudent.dev(
+                <>
+                  <p className="category">개발 분야</p>
+                  <p className="content">{selectedStudent.field_dev}</p>
+                  <p className="category">포트폴리오 PDF</p>
+                  <p
+                    className="click-value"
+                    onClick={() =>
+                      fetchAndSavePortfolio(selectedStudent.portfolio_pdf)
+                    }
+                  >
+                    {selectedStudent.portfolio_pdf}
+                  </p>
+                  <p className="category">깃허브 프로필 URL</p>
+                  <p className="content">
+                    <a href={selectedStudent.github_profile}>
+                      {selectedStudent.github_profile}
+                    </a>
+                  </p>
+                </>
+              )}
+            {norordev === "개발" &&
+              selectedIndex !== null &&
+              selectedStudent.study(
+                <>
+                  <p className="category">스터디 활동</p>
+                  <p className="content">{selectedStudent.motivation_study}</p>
+                </>
+              )}
+            {norordev === "개발" &&
+              selectedIndex !== null &&
+              selectedStudent.external(
+                <>
+                  <p className="category">대외 활동</p>
+                  <p className="content">
+                    {selectedStudent.motivation_external}
+                  </p>
+                </>
+              )}
             <p className="category">제출시간</p>
             <p className="content">
               {new Date(selectedStudent.createdAt).toLocaleDateString("ko-KR", {

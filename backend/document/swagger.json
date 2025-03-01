@@ -28,10 +28,7 @@
                     "example": "quipuadmin0316@!"
                   }
                 },
-                "required": [
-                  "username",
-                  "password"
-                ]
+                "required": ["username", "password"]
               }
             }
           }
