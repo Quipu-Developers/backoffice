@@ -46,7 +46,7 @@ export const fetchMemberData = async () => {
     });
     return response.data;
   } catch (err) {
-    console.error("Error fetching dev data:", err);
+    console.error("Error fetching member data:", err);
 
     throw err;
   }

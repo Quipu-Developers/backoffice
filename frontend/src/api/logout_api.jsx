@@ -12,7 +12,7 @@ export const logout = async () => {
     });
     return response;
   } catch (err) {
-    console.error("Error logging out:", err);
+    console.error("Error logout:", err);
     throw err;
   }
 };
