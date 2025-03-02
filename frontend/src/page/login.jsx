@@ -7,7 +7,6 @@ import { MdDownloadForOffline } from "react-icons/md";
 import toast from "../hook/toastUtil";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-const FRONTEND_URL = process.env.REACT_APP_FRONTEND_URL;
 
 export default function Login() {
   const [password, setPassword] = useState("");
@@ -33,7 +32,6 @@ export default function Login() {
           headers: {
             "Content-Type": "application/json",
             accept: "application/json",
-            Origin: FRONTEND_URL,
           },
           withCredentials: true,
         })
