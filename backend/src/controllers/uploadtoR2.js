@@ -46,9 +46,16 @@ const uploadHandler = async (req, res) => {
           return res.status(400).send("업로드할 파일이 없습니다.");
       }
 
+      const formatDateToYYMMDD = (date) => {
+        const year = String(date.getFullYear()).slice(2);  
+        const month = String(date.getMonth() + 1).padStart(2, "0");  
+        const day = String(date.getDate()).padStart(2, "0");  
+        return `${year}${month}${day}`;
+      };
+
       const uploadResults = await Promise.all(
-        req.files.map(async (file, index) => {  // 🎯 index 추가 (파일명만 변경)
-            const fileKey = `${seminaRecord.presentation_date}-${seminaRecord.speaker}-${index + 1}${path.extname(file.originalname)}`; // 🎯 파일명에 index 추가
+        req.files.map(async (file, index) => {  //index 추가 (파일명만 변경)
+            const fileKey = `${formatDateToYYMMDD(seminaRecord.presentation_date)}-${seminaRecord.speaker}-${index + 1}${path.extname(file.originalname)}`; // 🎯 파일명에 index 추가
             const params = {
                 Bucket: process.env.R2_BUCKET_NAME,
                 Key: fileKey,
@@ -58,7 +65,7 @@ const uploadHandler = async (req, res) => {
             await r2.send(new PutObjectCommand(params));
             console.log(`[LOG] 파일 업로드 성공: ${fileKey}`);
 
-            return { filename: fileKey };  // 🎯 DB에는 index 저장 X, 파일명만 클라이언트에 반환
+            return { filename: fileKey };  // DB에는 index 저장 X, 파일명만 클라이언트에 반환
         })
     );
     console.log(`[LOG] File 데이터 저장 완료 (총 ${uploadResults.length}개)`);
