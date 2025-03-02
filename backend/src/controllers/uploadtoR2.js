@@ -47,20 +47,21 @@ const uploadHandler = async (req, res) => {
       }
 
       const uploadResults = await Promise.all(
-          req.files.map(async (file) => {
-              const fileKey = `${seminaRecord.presentation_date}-${seminaRecord.speaker}`;
-              const params = {
-                  Bucket: process.env.R2_BUCKET_NAME,
-                  Key: fileKey,
-                  Body: file.buffer,
-                  ContentType: file.mimetype,
-              };
-              await r2.send(new PutObjectCommand(params));
-              console.log(`[LOG] 파일 업로드 성공: ${file.originalname}`);
+        req.files.map(async (file, index) => {  // 🎯 index 추가 (파일명만 변경)
+            const fileKey = `${seminaRecord.presentation_date}-${seminaRecord.speaker}-${index + 1}${path.extname(file.originalname)}`; // 🎯 파일명에 index 추가
+            const params = {
+                Bucket: process.env.R2_BUCKET_NAME,
+                Key: fileKey,
+                Body: file.buffer,
+                ContentType: file.mimetype,
+            };
+            await r2.send(new PutObjectCommand(params));
+            console.log(`[LOG] 파일 업로드 성공: ${fileKey}`);
 
-              return { filename: fileKey};
-          })
-      );
+            return { filename: fileKey };  // 🎯 DB에는 index 저장 X, 파일명만 클라이언트에 반환
+        })
+    );
+    console.log(`[LOG] File 데이터 저장 완료 (총 ${uploadResults.length}개)`);
 
       // `File` 테이블에 저장
       const fileRecords = await Promise.all(
@@ -71,9 +72,8 @@ const uploadHandler = async (req, res) => {
               });
           })
       );
-
       console.log(`[LOG] File 데이터 저장 완료 (총 ${fileRecords.length}개)`);
-
+      
       // 클라이언트 응답
       res.status(200).json({
           message: "데이터 저장 및 파일 업로드 성공",

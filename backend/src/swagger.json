@@ -281,6 +281,81 @@
           }
         }
       }
+    },
+    "/bo/feature/recruit": {
+      "get": {
+        "summary": "recruit 상태 조회",
+        "description": "현재 recruit의 상태(is_enabled)를 조회합니다.",
+        "responses": {
+          "200": {
+            "description": "recruit 상태 조회 성공",
+            "content": {
+              "application/json": {
+                "example": {
+                  "is_enabled": true
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 feature를 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "해당 feature를 찾을 수 없습니다."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 오류 발생"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "recruit 상태 변경",
+        "description": "현재 recruit의 상태(is_enabled)를 변경(토글)합니다.",
+        "responses": {
+          "200": {
+            "description": "recruit 상태 변경 성공",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "recruit 상태가 변경되었습니다.",
+                  "is_enabled": false
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "해당 feature를 찾을 수 없음",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "해당 feature를 찾을 수 없습니다."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "서버 에러",
+            "content": {
+              "application/json": {
+                "example": {
+                  "message": "서버 오류 발생"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

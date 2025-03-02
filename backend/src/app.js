@@ -14,6 +14,7 @@ const cors = require("cors");
 
 require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 const NODE_ENV = process.env.NODE_ENV;
+console.log(`NODE_ENV = ${NODE_ENV}`);
 const PORT = process.env.PORT;
 
 const passportConfig = require("../src/passport");
@@ -23,6 +24,7 @@ const { sequelize } = require("../src/models");
 const loginRouter = require("../src/routes/login");
 const memberRouter = require("../src/routes/member");
 const seminaRouter = require("../src/routes/semina");
+const featureRouter = require("../src/routes/feature");
 
 const sessionOption = {
   resave: false,
@@ -128,6 +130,9 @@ app.use("/bo/member", memberRouter);
 
 //semina
 app.use("/bo/semina", seminaRouter);
+
+//feature
+app.use("/bo/feature", featureRouter);
 
 //{url}/api-docs 개발시에만
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
