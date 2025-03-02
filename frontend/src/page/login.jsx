@@ -7,6 +7,7 @@ import { MdDownloadForOffline } from "react-icons/md";
 import toast from "../hook/toastUtil";
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+console.log("BASE_URL", BASE_URL);
 
 export default function Login() {
   const [password, setPassword] = useState("");

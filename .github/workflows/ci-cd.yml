@@ -24,7 +24,7 @@ jobs:
 
       - name: Create .env.production file
         run: |
-          echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}" > ./.env.production
+          echo "REACT_APP_BACKEND_URL=${{ secrets.REACT_APP_BACKEND_URL }}" > ./frontend/.env.production
 
       - name: Build project
         working-directory: frontend
