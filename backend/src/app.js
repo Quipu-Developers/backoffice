@@ -26,17 +26,19 @@ const memberRouter = require("../src/routes/member");
 const seminaRouter = require("../src/routes/semina");
 const featureRouter = require("../src/routes/feature");
 
+const isProdOrTest = NODE_ENV === "production" || NODE_ENV === "test";
+
 const sessionOption = {
   resave: false,
   saveUninitialized: false,
   secret: process.env.COOKIE_SECRET,
   cookie: {
     maxAge: 1000 * 60 * 60 * 2, // 2시간
-    httpOnly: NODE_ENV === "production", // production이면 true, 아니면 false
-    secure: NODE_ENV === "production", // production이면 true, 아니면 false
-    ...(NODE_ENV === "production" && { sameSite: "None" }), // production이면 추가
+    httpOnly: isProdOrTest, // production 또는 test이면 true
+    secure: isProdOrTest, // production 또는 test이면 true
+    ...(isProdOrTest && { sameSite: "None" }), // production 또는 test이면 추가
   },
-  ...(NODE_ENV === "production" && { proxy: true }), // production이면 추가
+  ...(isProdOrTest && { proxy: true }), // production 또는 test이면 추가
 };
 
 app.use(cookieParser(process.env.COOKIE_SECRET));
