@@ -45,17 +45,17 @@ app.use(passport.initialize()); // req.user, req.login, req.isAuthenticate, req.
 app.use(passport.session()); //connect.sid라는 이름으로 세션 쿠키가 브라우져로 전송
 app.use(express.json());
 
-if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+if (process.env.NODE_ENV === "development") {
     app.use(
       cors({
         origin: process.env.CLIENT_ORIGIN_DEV, // 클라이언트의 Origin
-        methods: ["GET", "POST", "OPTIONS", "DELETE"],
+        methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
         credentials: true, // 쿠키를 포함한 요청을 허용}));
       })
     );
     app.use(morgan("dev"));
     app.use(express.urlencoded({ extended: false }));
-  } else if (process.env.NODE_ENV === "production") {
+  } else {
     app.enable("trust proxy");
     app.use(morgan("combined"));
     app.use(hpp());
@@ -63,7 +63,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     app.use(
       cors({
         origin: process.env.CLIENT_ORIGIN, // 클라이언트의 Origin
-        methods: ["GET", "POST", "OPTIONS"],
+        methods: ["GET", "POST", "PATCH", "OPTIONS"],
         credentials: true, // 쿠키를 포함한 요청을 허용}));
       })
     );
