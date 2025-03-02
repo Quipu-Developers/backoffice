@@ -126,7 +126,8 @@ export default function Login() {
         </form>
       </div>
       <footer className="lg_copyright">
-        Copyright 2024.&nbsp;<span className="Quipu">QUIPU.</span>&nbsp;
+        Copyright {new Date().getFullYear()}.&nbsp;
+        <span className="Quipu">QUIPU.</span>&nbsp;
         <br></br>All rights reserved.
       </footer>
 
