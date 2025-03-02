@@ -1,4 +1,5 @@
-config.json
+config.js
 bcrypt.js
 .env
 node_modules
+error.log
