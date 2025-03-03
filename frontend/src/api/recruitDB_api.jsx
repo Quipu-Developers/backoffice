@@ -54,16 +54,13 @@ export const fetchMemberData = async () => {
 
 const getPdf = async (filename) => {
   try {
-    const response = await axios.get(
-      `${BASE_URL}/bo/data/joinquipu_dev_file/${filename}`,
-      {
-        headers: {
-          accept: "application/json",
-        },
-        responseType: "blob", // 파일 다운로드를 위해 blob 타입으로 받기
-        withCredentials: true, // 쿠키를 전송하기 위해 설정
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/bo/member/pdf/${filename}`, {
+      headers: {
+        accept: "application/json",
+      },
+      responseType: "blob", // 파일 다운로드를 위해 blob 타입으로 받기
+      withCredentials: true, // 쿠키를 전송하기 위해 설정
+    });
     return response;
   } catch (err) {
     if (err.response && err.response.status === 404) {
@@ -97,5 +94,39 @@ export const fetchAndSavePortfolio = async (filename) => {
     }
   } catch (error) {
     alert("서버 에러");
+  }
+};
+
+export const recruitStateCheck = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/bo/feature/recruit`, {
+      headers: {
+        accept: "application/json",
+      },
+      withCredentials: true,
+    });
+    return response;
+  } catch (err) {
+    console.error("Error recruitStateCheck:", err);
+    throw err;
+  }
+};
+
+export const recruitStateChange = async () => {
+  try {
+    const response = await axios.patch(
+      `${BASE_URL}/bo/feature/recruit`,
+      {},
+      {
+        headers: {
+          accept: "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+    return response;
+  } catch (err) {
+    console.error("Error recruitStateChange:", err);
+    throw err;
   }
 };

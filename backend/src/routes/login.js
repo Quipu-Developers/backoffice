@@ -1,10 +1,10 @@
-const express = require('express');
-const {isLoggedIn, isNotLoggedin} = require('../middlewares');
-const {login, logout} = require('../controllers/auth');
+const express = require("express");
+const { isLoggedIn, isNotLoggedin } = require("../middlewares");
+const { login, logout } = require("../controllers/auth");
 const router = express.Router();
 
 // POST /login
-router.post('/login', isNotLoggedin, login);
+router.post("/login", isNotLoggedin, login);
 // GET /logout
-router.get('/logout', isLoggedIn, logout);
+router.get("/logout", isLoggedIn, logout);
 module.exports = router;

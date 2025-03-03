@@ -1,7 +1,12 @@
 import * as XLSX from "xlsx";
 import React, { useState, useEffect, useCallback } from "react";
 import "../style/recruitDB.css";
-import { fetchMemberData, fetchAndSavePortfolio } from "../api/recruitDB_api";
+import {
+  fetchMemberData,
+  fetchAndSavePortfolio,
+  recruitStateCheck,
+  recruitStateChange,
+} from "../api/recruitDB_api";
 import { logout } from "../api/logout_api";
 import { useNavigate } from "react-router-dom";
 import toast from "../hook/toastUtil";
@@ -14,6 +19,7 @@ function RecruitDB() {
   const [data, setData] = useState([]);
   const [highlightedRowIndex, setHighlightedRowIndex] = useState(0); // 모달이 닫힌 후에도 색상이 유지되도록 저장
   const [selectedRowIndex, setSelectedRowIndex] = useState(0); // 클릭된 행을 표시
+  const [recruitState, setRecruitState] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,11 +34,23 @@ function RecruitDB() {
         setHighlightedRowIndex(0); // 첫 번째 행을 하이라이트
         setSelectedRowIndex(0); // 첫 번째 행을 선택된 상태로 설정
       } catch (error) {
-        console.error("Error");
+        console.error("Error fetchData", error);
         navigate("/");
       }
     };
+
+    const getRcruitState = async () => {
+      try {
+        const response = await recruitStateCheck();
+        setRecruitState(response.data.is_enabled);
+      } catch (error) {
+        console.error("Error getRcruitState", error);
+        navigate("/");
+      }
+    };
+
     fetchData();
+    getRcruitState();
   }, [navigate]);
 
   const handleLoadDataClick = () => {
@@ -160,6 +178,26 @@ function RecruitDB() {
     }
   };
 
+  const handleRecruitState = async () => {
+    toast.confirm(
+      "모집 여부를 변경하시겠습니까?",
+      async () => {
+        try {
+          const response = await recruitStateChange();
+          if (response.status === 200) {
+            setRecruitState(response.data.is_enabled);
+          }
+        } catch (error) {
+          console.error("change recruit chance 실패", error);
+        }
+      },
+      null,
+      "네",
+      "아니요",
+      "error"
+    );
+  };
+
   return (
     <div className="db-container">
       <div className="db-logo">
@@ -199,6 +237,25 @@ function RecruitDB() {
               개발
             </label>
           </div> */}
+          {/* 모집 기간 on/off 버튼 */}
+          <div className="radio-buttons">
+            <label>
+              <input
+                type="radio"
+                checked={recruitState === true}
+                onChange={handleRecruitState}
+              />
+              모집 ON
+            </label>
+            <label>
+              <input
+                type="radio"
+                checked={recruitState === false}
+                onChange={handleRecruitState}
+              />
+              모집 OFF
+            </label>
+          </div>
         </div>
 
         <div className="dbbox">

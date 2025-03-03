@@ -48,42 +48,42 @@ app.use(passport.session()); //connect.sid라는 이름으로 세션 쿠키가 �
 app.use(express.json());
 
 if (process.env.NODE_ENV === "development") {
-    app.use(
-      cors({
-        origin: process.env.CLIENT_ORIGIN_DEV, // 클라이언트의 Origin
-        methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
-        credentials: true, // 쿠키를 포함한 요청을 허용}));
-      })
-    );
-    app.use(morgan("dev"));
-    app.use(express.urlencoded({ extended: false }));
-  } else {
-    app.enable("trust proxy");
-    app.use(morgan("combined"));
-    app.use(hpp());
-    app.use(express.urlencoded({ extended: false }));
-    app.use(
-      cors({
-        origin: process.env.CLIENT_ORIGIN, // 클라이언트의 Origin
-        methods: ["GET", "POST", "PATCH", "OPTIONS"],
-        credentials: true, // 쿠키를 포함한 요청을 허용}));
-      })
-    );
-    app.use(
-      helmet.contentSecurityPolicy({
-        directives: {
-          defaultSrc: ["'none'"], // 기본적으로 모든 리소스 차단
-          scriptSrc: ["'none'"], // JavaScript 실행 차단 (XSS 방지)
-          styleSrc: ["'none'"], // 외부 스타일 차단
-          frameSrc: ["'none'"], // iframe 포함 금지 (Clickjacking 방어)
-        },
-      })
-    );
-    app.use(helmet.frameguard({ action: "deny" }));
-    app.use(helmet.noSniff());
-    app.use(helmet.dnsPrefetchControl({ allow: false }));
-    app.use(helmet.hidePoweredBy());
-    app.use(helmet.referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
+  app.use(
+    cors({
+      origin: process.env.CLIENT_ORIGIN_DEV, // 클라이언트의 Origin
+      methods: ["GET", "POST", "OPTIONS", "DELETE", "PATCH"],
+      credentials: true, // 쿠키를 포함한 요청을 허용}));
+    })
+  );
+  app.use(morgan("dev"));
+  app.use(express.urlencoded({ extended: false }));
+} else {
+  app.enable("trust proxy");
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(
+    cors({
+      origin: process.env.CLIENT_ORIGIN, // 클라이언트의 Origin
+      methods: ["GET", "POST", "PATCH", "OPTIONS"],
+      credentials: true, // 쿠키를 포함한 요청을 허용}));
+    })
+  );
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'none'"], // 기본적으로 모든 리소스 차단
+        scriptSrc: ["'none'"], // JavaScript 실행 차단 (XSS 방지)
+        styleSrc: ["'none'"], // 외부 스타일 차단
+        frameSrc: ["'none'"], // iframe 포함 금지 (Clickjacking 방어)
+      },
+    })
+  );
+  app.use(helmet.frameguard({ action: "deny" }));
+  app.use(helmet.noSniff());
+  app.use(helmet.dnsPrefetchControl({ allow: false }));
+  app.use(helmet.hidePoweredBy());
+  app.use(helmet.referrerPolicy({ policy: "strict-origin-when-cross-origin" }));
 }
 
 // swagger 관련 세팅
