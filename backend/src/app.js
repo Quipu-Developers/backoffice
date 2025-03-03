@@ -58,10 +58,6 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
   app.use(express.urlencoded({ extended: false }));
 } else {
-  app.enable("trust proxy");
-  app.use(morgan("combined"));
-  app.use(hpp());
-  app.use(express.urlencoded({ extended: false }));
   app.use(
     cors({
       origin: process.env.CLIENT_ORIGIN, // 클라이언트의 Origin
@@ -69,6 +65,10 @@ if (process.env.NODE_ENV === "development") {
       credentials: true, // 쿠키를 포함한 요청을 허용}));
     })
   );
+  app.enable("trust proxy");
+  app.use(morgan("combined"));
+  app.use(hpp());
+  app.use(express.urlencoded({ extended: false }));
   app.use(
     helmet.contentSecurityPolicy({
       directives: {
