@@ -34,7 +34,7 @@
 
 .bottombox {
   display: flex;
-  height: 83vh;
+  height: 80%;
   width: 70%;
   flex-direction: column;
   justify-content: center;
@@ -47,7 +47,7 @@
 
   @media (max-width: 768px) {
     box-shadow: none;
-    height: 100%;
+    flex: 1;
     width: 90%;
     padding: 20px 10px;
   }
@@ -182,7 +182,7 @@ th {
   border: 2px solid #748da6;
   width: 80%;
   max-width: 600px;
-  max-height: 70vh;
+  max-height: 70%;
   overflow: auto;
   position: relative;
   border-radius: 5px;
@@ -249,11 +249,9 @@ th {
 
   @media (max-width: 768px) {
     .db-logo {
-      justify-content: left;
-      align-items: center;
       padding: 10px 0;
-      height: 50px;
       width: 100%;
+      height: auto;
     }
 
     .db-container {
