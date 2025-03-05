@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/backoffice/static/css/main.3b75c08e.css",
+    "main.css": "/backoffice/static/css/main.a4797056.css",
     "main.js": "/backoffice/static/js/main.daac464f.js",
     "static/js/453.97c18b9e.chunk.js": "/backoffice/static/js/453.97c18b9e.chunk.js",
     "static/media/LINESeedKR-Rg.woff": "/backoffice/static/media/LINESeedKR-Rg.aefe197e00153cd0acf0.woff",
@@ -10,12 +10,12 @@
     "static/media/LINESeedKR-Bd.woff2": "/backoffice/static/media/LINESeedKR-Bd.4729562ef4f148c475dc.woff2",
     "static/media/LINESeedKR-Th.woff2": "/backoffice/static/media/LINESeedKR-Th.0e9b92963de1cf3f0a36.woff2",
     "index.html": "/backoffice/index.html",
-    "main.3b75c08e.css.map": "/backoffice/static/css/main.3b75c08e.css.map",
+    "main.a4797056.css.map": "/backoffice/static/css/main.a4797056.css.map",
     "main.daac464f.js.map": "/backoffice/static/js/main.daac464f.js.map",
     "453.97c18b9e.chunk.js.map": "/backoffice/static/js/453.97c18b9e.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.3b75c08e.css",
+    "static/css/main.a4797056.css",
     "static/js/main.daac464f.js"
   ]
 }
