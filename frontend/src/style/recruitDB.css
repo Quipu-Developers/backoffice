@@ -103,12 +103,13 @@
   border-collapse: collapse;
   text-align: left;
   font-size: 20px;
+  border: 0.1px solid black;
 }
 
 .dbbox td,
 th {
   font-size: 15px;
-  border: 0.5px solid;
+  border: 0.1px solid black;
   padding: 4px 8px;
   text-align: center;
   overflow: hidden;
@@ -119,7 +120,6 @@ th {
   padding: 2px 2 px;
   color: black;
   background-color: white;
-  border: 0.1px solid black;
   position: sticky;
   top: 0;
   z-index: 2;
