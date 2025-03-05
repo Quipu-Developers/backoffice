@@ -4,7 +4,8 @@
   flex-wrap: nowrap;
   flex-direction: row;
   align-items: center;
-  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
   width: 100%;
 }
 
@@ -57,44 +58,35 @@
   width: 100%;
   height: auto;
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: center;
-  padding-bottom: 20px;
-
-  @media (max-width: 768px) {
-    justify-content: center;
-  }
+  padding-bottom: 10px;
 }
 
 .upload-buttons {
   display: flex;
+  gap: 5px;
 }
 
 .upload-buttons button {
-  display: inline-block;
-  white-space: nowrap;
-  padding: 10px;
-  font-size: 15px;
+  padding: 5px 10px;
+  font-size: 17px;
   border-radius: 2px;
   color: #2c221a;
   background-color: #fee32f;
   border: none;
   outline: none;
   cursor: pointer;
-  margin: 0 7px;
 }
 
 .radio-buttons {
   display: flex;
+  gap: 5px;
 }
 
 .radio-buttons label {
-  margin: 0 7px;
   cursor: pointer;
-
-  @media (max-width: 500px) {
-    margin: 3px;
-  }
+  font-size: 15px;
 }
 
 .dbbox {
@@ -137,8 +129,7 @@ th {
 .dbbox thead th {
   background-color: #41444b;
   color: white;
-  padding: 7px 0;
-  border: 0.5px solid white;
+  padding: 7px 5px;
   font-weight: 400;
 }
 
@@ -237,10 +228,12 @@ th {
 
 @media (max-width: 932px) {
   /* 표 요소 줄이기 */
-  .dbbox th:nth-child(5),
+  .dbbox th:nth-child(3),
   .dbbox th:nth-child(6),
-  .dbbox td:nth-child(5),
-  .dbbox td:nth-child(6) {
+  .dbbox th:nth-child(7),
+  .dbbox td:nth-child(3),
+  .dbbox td:nth-child(6),
+  .dbbox td:nth-child(7) {
     display: none;
   }
 

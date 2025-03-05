@@ -10,9 +10,10 @@ import {
 import { logout } from "../api/logout_api";
 import { useNavigate } from "react-router-dom";
 import toast from "../hook/toastUtil";
+import { TbReload } from "react-icons/tb";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 function RecruitDB() {
-  const [buttonText, setButtonText] = useState("엑셀 파일로 내보내기");
   const [norordev, setNorordev] = useState("개발");
   const [generalData, setGeneralData] = useState([]);
   const [devData, setDevData] = useState([]);
@@ -148,27 +149,6 @@ function RecruitDB() {
     data,
   ]);
 
-  // 화면 크기에 따라 버튼 텍스트 변경
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setButtonText("Excel");
-      } else {
-        setButtonText("엑셀 파일로 내보내기");
-      }
-    };
-
-    // 초기 실행
-    handleResize();
-
-    // 이벤트 리스너 추가
-    window.addEventListener("resize", handleResize);
-    return () => {
-      // 이벤트 리스너 제거
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   const onClickLogout = async () => {
     const response = await logout();
     if (response.status === 200) {
@@ -208,35 +188,6 @@ function RecruitDB() {
       </div>
       <div className="bottombox">
         <div className="buttonlist">
-          <div className="upload-buttons">
-            <ExcelExporter
-              buttonText={buttonText}
-              generalData={generalData}
-              devData={devData}
-            />
-            <button onClick={handleLoadDataClick}>불러오기</button>
-          </div>
-          {/* 일반/개발부원 라디오 버튼 */}
-          {/* <div className="radio-buttons">
-            <label>
-              <input
-                type="radio"
-                value="일반"
-                checked={norordev === "일반"}
-                onChange={handleRadioChange}
-              />
-              일반
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="개발"
-                checked={norordev === "개발"}
-                onChange={handleRadioChange}
-              />
-              개발
-            </label>
-          </div> */}
           {/* 모집 기간 on/off 버튼 */}
           <div className="radio-buttons">
             <label>
@@ -256,6 +207,12 @@ function RecruitDB() {
               모집 OFF
             </label>
           </div>
+          <div className="upload-buttons">
+            <ExcelExporter generalData={generalData} devData={devData} />
+            <button onClick={handleLoadDataClick}>
+              <TbReload />
+            </button>
+          </div>
         </div>
 
         <div className="dbbox">
@@ -265,6 +222,7 @@ function RecruitDB() {
                 <th>번호</th>
                 <th>이름</th>
                 <th>학번</th>
+                <th>학년</th>
                 <th>학과</th>
                 <th>전화번호</th>
                 <th>제출시간</th>
@@ -290,6 +248,9 @@ function RecruitDB() {
                   </td>
                   <td>
                     <p>{student.student_id}</p>
+                  </td>
+                  <td>
+                    <p>{student.grade}</p>
                   </td>
                   <td>
                     <p>{student.major}</p>
@@ -322,7 +283,13 @@ function RecruitDB() {
 
       {showModal && (
         <div className="modal" onClick={closeModal}>
-          <h6 className="prev-button" onClick={prevStudent}>
+          <h6
+            className="prev-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              prevStudent();
+            }}
+          >
             &#60;
           </h6>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
@@ -407,7 +374,13 @@ function RecruitDB() {
               })}
             </p>
           </div>
-          <h6 className="next-button" onClick={nextStudent}>
+          <h6
+            className="next-button"
+            onClick={(e) => {
+              e.stopPropagation();
+              nextStudent();
+            }}
+          >
             &#62;
           </h6>
         </div>
@@ -419,7 +392,7 @@ function RecruitDB() {
 export default RecruitDB;
 
 // 엑셀 파일로 내보내기
-function ExcelExporter({ buttonText, generalData, devData }) {
+function ExcelExporter({ generalData, devData }) {
   const [fileName, setFileName] = useState("퀴푸 지원 명단.xlsx");
 
   const exportToExcel = () => {
@@ -440,7 +413,9 @@ function ExcelExporter({ buttonText, generalData, devData }) {
 
   return (
     <div>
-      <button onClick={exportToExcel}>{buttonText}</button>
+      <button onClick={exportToExcel}>
+        <MdOutlineFileDownload />
+      </button>
     </div>
   );
 }
