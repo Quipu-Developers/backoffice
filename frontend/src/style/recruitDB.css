@@ -86,8 +86,6 @@
 .radio-buttons label {
   cursor: pointer;
   font-size: 15px;
-  display: flex;
-  align-items: center;
 }
 
 .dbbox {
@@ -98,7 +96,7 @@
   overflow: auto;
   order: 2;
   z-index: 0;
-  border: 0.1px solid black;
+  border-bottom: 0.1px solid black;
 }
 
 .dbbox table {
